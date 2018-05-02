@@ -59,6 +59,7 @@ t/Users/snbhatta/.gradle/language/golang/1.9.2/go/src/runtime/proc.go:195"}
     * level names are uppercase
     * timestamp is in ISO8601 with seconds
 - The `Production` logger:
+    * Doesn't log messages at debug level
     * Adds stack trace as a json field for Error, DPanic levels, but not for Warn.
     * Always adds the caller as a json field
     * timestamp is in epoch format

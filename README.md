@@ -15,3 +15,5 @@ $ go run src/simple1/main.go
 ## Examples
 
 * [Simplest usage using presets](./src/simple1)
+* [Creating a custom logger](./src/customlogger)
+* [Using the global logger](./src/globallogger)

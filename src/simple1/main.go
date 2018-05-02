@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	fmt.Printf("\n*** Using the Example logger\n\n")
 
 	logger := zap.NewExample()

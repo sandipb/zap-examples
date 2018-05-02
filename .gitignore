@@ -15,3 +15,5 @@
 
 /pkg
 /bin
+debug
+/.vscode
