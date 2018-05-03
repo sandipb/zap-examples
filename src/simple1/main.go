@@ -49,4 +49,11 @@ func main() {
 
 	fmt.Println()
 
+	fmt.Printf("*** Using the Sugar logger\n\n")
+
+	logger, _ = zap.NewDevelopment()
+	slogger := logger.Sugar()
+	slogger.Info("Info() uses sprint")
+	slogger.Infof("Infof() uses %s", "sprintf")
+	slogger.Infow("Infow() allows tags", "name", "Legolas", "type", 1)
 }

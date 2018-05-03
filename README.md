@@ -17,3 +17,4 @@ $ go run src/simple1/main.go
 * [Simplest usage using presets](./src/simple1)
 * [Creating a custom logger](./src/customlogger)
 * [Using the global logger](./src/globallogger)
+* [Creating custom encoders for metadata fields](./src/customencoder)

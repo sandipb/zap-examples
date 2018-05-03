@@ -46,6 +46,13 @@ runtime.main
 t/Users/snbhatta/.gradle/language/golang/1.9.2/go/src/runtime/proc.go:195"}
 {"level":"dpanic","ts":1525294364.332895,"caller":"simple1/main.go:48","msg":"This is a DPANIC message","stacktrace":"main.main\n\t/Users/snbhatta/dev/zap-examples/src/simple1/main.go:48\nruntime.main\n
 \t/Users/snbhatta/.gradle/language/golang/1.9.2/go/src/runtime/proc.go:195"}
+
+
+*** Using the Sugar logger
+
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:56      Info() uses sprint
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:57      Infof() uses sprintf
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:58      Infow() allows tags     {"name": "Legolas", "type": 1}
 ```
 
 # Observations
@@ -64,3 +71,36 @@ t/Users/snbhatta/.gradle/language/golang/1.9.2/go/src/runtime/proc.go:195"}
     * Always adds the caller as a json field
     * timestamp is in epoch format
     * level is in lower case
+
+# Using the "sugar" logger
+
+The default logger expects structured tags.
+
+```go
+logger.Info("This is an INFO message with fields", zap.String("region", "us-west"), zap.Int("id", 2))
+```
+
+This is the fastest option for an application where performance is key.
+
+However, for a just [a small additional penalty](https://github.com/uber-go/zap#performance), 
+which actually is still slightly better than the standard library, you can use 
+the _sugar_ logger, which uses a reflection based type detection to give you
+a simpler syntax to add tags of mixed types.
+
+```go
+slogger := logger.Sugar()
+slogger.Info("Info() uses sprint")
+slogger.Infof("Infof() uses %s", "sprintf")
+slogger.Infow("Infow() allows tags", "name", "Legolas", "type", 1)
+```
+
+Output:
+
+```
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:56      Info() uses sprint
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:57      Infof() uses sprintf
+2018-05-02T18:13:22.376-0700    INFO    simple1/main.go:58      Infow() allows tags     {"name": "Legolas", "type": 1}
+```
+
+You can switch from a sugar logger to a standard logger any time using the 
+`.Desugar()` method on the logger.
