@@ -85,16 +85,25 @@ func main() {
 		},
 	}
 	logger, _ = cfg.Build()
+    childlogger := logger.With(zap.String("logger", "child generation 1"))
 
 	logger.Debug("This is a DEBUG message")
 	logger.Info("This is an INFO message")
 	logger.Info("This is an INFO message with fields", zap.String("region", "us-west"), zap.Int("id", 2))
 
-	fmt.Printf("\n*** Same logger with console logging enabled instead\n\n")
+    childlogger.Debug("This is a DEBUG message from child logger") 
+    childlogger.Info("This is an INFO message from child logger") 
+
+	fmt.Printf("\n*** Same logger with console logging enabled instead with Info level now\n\n")
 
 	logger.WithOptions(
 		zap.WrapCore(
 			func(zapcore.Core) zapcore.Core {
-				return zapcore.NewCore(zapcore.NewConsoleEncoder(cfg.EncoderConfig), zapcore.AddSync(os.Stderr), zapcore.DebugLevel)
-			})).Info("This is an INFO message")
+				return zapcore.NewCore(zapcore.NewConsoleEncoder(cfg.EncoderConfig), zapcore.AddSync(os.Stderr), zapcore.InfoLevel)
+			})).Debug("This is a DEBUG message, but should not be printed")
+
+    logger.Debug("This is a DEBUG message, but should not be printed") 
+
+    childlogger.Debug("This is a DEBUG message from child logger") 
+    childlogger.Info("This is an INFO message from child logger") 
 }
