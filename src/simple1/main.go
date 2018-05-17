@@ -63,7 +63,7 @@ func main() {
       "level": "debug",
       "encoding": "console",
       "outputPaths": ["stdout", "/tmp/logs"],
-      "errorOutputPaths": ["stderr"],
+      "errorOutputPaths": ["/tmp/errorlogs"],
       "initialFields": {"foo": "bar"},
       "encoderConfig": {
         "messageKey": "message",
@@ -98,8 +98,8 @@ func main() {
     logger.Info("This should have an ISO8601 based time stamp")
     logger.Warn("This is a WARN message")
     logger.Error("This is an ERROR message")
-    // logger.Fatal("This is a FATAL message")   // would exit if uncommented
-    // logger.DPanic("This is a DPANIC message") // would exit if uncommented
+    logger.Fatal("This is a FATAL message")   // would exit if uncommented
+    logger.DPanic("This is a DPANIC message") // would exit if uncommented
 
 
 }
