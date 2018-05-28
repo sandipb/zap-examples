@@ -42,6 +42,10 @@ func main() {
 }
 
 func (l *Logger) WithSamplingConfig(tick time.Duration, initial, thereAfter int) *Logger {
+	if initial < 1 || thereAfter < 1 {
+		// fmt.Printf("all arguments must be positive")
+		return l
+	}
 	core := l.Core()
 	newLogger := l.WithOptions(
 		zap.WrapCore(
