@@ -24,7 +24,10 @@ func main() {
 	core := zapcore.NewCore(encoder, writer, &atomLevel)
 	emitInitialMessages := 5
 	thereAfterEachMessages := 100
+	// You can embed zap.Logger inside your Logger struct for WithSamplingConfig and preserve zap.Logger interface
+	// Or if you take zap.Logger as one of the parameters for WithSamplingConfig, you don't need to use embedded struct.
 	logger := &Logger{zap.New(core)}
+
 	fmt.Printf("We will first emit the first %v messages then one every each %v messages thereafter \n", emitInitialMessages, thereAfterEachMessages)
 	logger = logger.WithSamplingConfig(time.Second, emitInitialMessages, thereAfterEachMessages)
 
